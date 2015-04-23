@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../../lib/mylyn_connector'
 
-class MylynConnector::CustomFieldsController < MylynConnector::ApplicationController
+class MylynConnector::WorkflowPermissionsController < MylynConnector::ApplicationController
   unloadable
 
   accept_api_auth :all
@@ -8,11 +8,10 @@ class MylynConnector::CustomFieldsController < MylynConnector::ApplicationContro
   helper MylynConnector::MylynHelper
 
   def all
-    @custom_fields = CustomField.all
+    @workflowPermissions = WorkflowPermission.find(:all)
 
     respond_to do |format|
       format.xml {render :layout => nil}
     end
   end
-
 end

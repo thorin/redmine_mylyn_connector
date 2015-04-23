@@ -27,8 +27,8 @@ class MylynConnector::Hooks::ControllerIssuesEditAfterSaveTest < MylynConnector:
           put "/issues/" + issue_id.to_s + ".xml", {:issue => {:watcher_user_ids => [1, 2, 3] }}, @headers
         end
 
-        assert_not_nil(Watcher.find(:first, :conditions => ["watchable_type='Issue' AND watchable_id=? AND user_id=?", issue_id, 1]))
-        assert_not_nil(Watcher.find(:first, :conditions => ["watchable_type='Issue' AND watchable_id=? AND user_id=?", issue_id, 3]))
+        assert_not_nil(Watcher.where("watchable_type='Issue' AND watchable_id=? AND user_id=?", issue_id, 1).first)
+        assert_not_nil(Watcher.where("watchable_type='Issue' AND watchable_id=? AND user_id=?", issue_id, 3).first)
       end
 
       should "add one new watcher and remove one existing" do
@@ -38,9 +38,9 @@ class MylynConnector::Hooks::ControllerIssuesEditAfterSaveTest < MylynConnector:
           put "/issues/" + issue_id.to_s + ".xml", {:issue => {:watcher_user_ids => [1, 3] }}, @headers
         end
 
-        assert_not_nil(Watcher.find(:first, :conditions => ["watchable_type='Issue' AND watchable_id=? AND user_id=?", issue_id, 1]))
-        assert_not_nil(Watcher.find(:first, :conditions => ["watchable_type='Issue' AND watchable_id=? AND user_id=?", issue_id, 3]))
-        assert_nil(Watcher.find(:first, :conditions => ["watchable_type='Issue' AND watchable_id=? AND user_id=?", issue_id, 2]))
+        assert_not_nil(Watcher.where("watchable_type='Issue' AND watchable_id=? AND user_id=?", issue_id, 1).first)
+        assert_not_nil(Watcher.where("watchable_type='Issue' AND watchable_id=? AND user_id=?", issue_id, 3).first)
+        assert_nil(Watcher.where("watchable_type='Issue' AND watchable_id=? AND user_id=?", issue_id, 2).first)
       end
 
       should "do nothing - insufficient data" do
