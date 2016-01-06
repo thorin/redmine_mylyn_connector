@@ -8,12 +8,14 @@ class MylynConnector::ProjectsController < MylynConnector::ApplicationController
   helper MylynConnector::MylynHelper
 
   def all
-    @projects = Project.joins(:enabled_modules)
+    @projects = Project
       .where("enabled_modules.name = 'issue_tracking' AND #{Project.visible_condition(User.current)}")
+      .joins(:enabled_modules)
+      .to_a
 
     respond_to do |format|
       format.xml {render :layout => nil}
     end
   end
-
+  
 end

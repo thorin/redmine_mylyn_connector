@@ -7,8 +7,8 @@ module MylynConnector::ProjectsHelper
   end
 
   def get_issue_custom_fields project, tracker
-    icf = project.all_issue_custom_fields;
-    icf.to_a.delete_if {|x| x.trackers.empty? } #only icf with assigned tracker are valid
+    icf = project.all_issue_custom_fields.to_a;
+    icf.delete_if {|x| x.trackers.empty? } #only icf with assigned tracker are valid
 
     icf = icf & tracker.custom_fields
     icf.compact
